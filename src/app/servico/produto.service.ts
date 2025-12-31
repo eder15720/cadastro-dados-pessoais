@@ -1,0 +1,36 @@
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Produto } from '../modelo/Produto';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProdutoService {
+
+  // URL da API
+  url:string = 'http://localhost:3000/produtos';
+
+  // Primeiro método a ser executado quando referenciada a classe de serviço
+  constructor(private http:HttpClient) { }
+
+  // Método para selecionar produtos
+  selecionar():Observable<Produto[]>{
+    return this.http.get<Produto[]>(this.url);
+  }
+
+  // Método para cadastrar produtos
+  cadastrar(obj:Produto):Observable<Produto>{
+    return this.http.post<Produto>(this.url, obj);
+  }
+
+  // Método para alterar produtos
+  alterar(obj:Produto):Observable<Produto>{
+    return this.http.put<Produto>(`${this.url}/${obj.id}`, obj);
+  }
+
+  // Método para remover produtos
+  remover(id:number):Observable<any>{
+    return this.http.delete<any>(`${this.url}/${id}`);
+  }
+}
